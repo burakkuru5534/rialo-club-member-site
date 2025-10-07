@@ -1,10 +1,63 @@
 // GİZLİ ŞİFRENİZİ BURAYA YAZIN
-const SECRET_KEY = "rialo5534"; // Örn: "RialoBoss2025"
+const SECRET_KEY = "rialo5534"; // Lütfen bunu kendi şifrenizle değiştirin!
 
 const addImageBtn = document.getElementById('addImageBtn');
 const authModal = document.getElementById('authModal');
 const addModal = document.getElementById('addModal');
 const galleryContainer = document.getElementById('galleryContainer');
+
+let memeData = []; // Tüm kart verilerini tutacak ana dizi
+
+// --- 1. FONKSİYON: SAYFA YÜKLENİNCE VERİYİ YÜKLE ---
+function loadMemes() {
+    // Local Storage'dan veriyi çek
+    const savedData = localStorage.getItem('rialoMemeGallery');
+    
+    if (savedData) {
+        // Veri varsa, JSON formatından JavaScript dizisine dönüştür
+        memeData = JSON.parse(savedData);
+    } else {
+        // İlk yüklemede Local Storage boşsa, varsayılan kartları ekle (Örn. örnek kartınız)
+        memeData = [
+            {
+                url: "gorsel-3-adresi.jpg", // Lütfen bu URL'yi çalışan bir URL ile değiştirin
+                title: "The 'Discord Pacing' Timer",
+                desc: "RialORCA'dan mesaj beklerken odada volta atan kullanıcının çaresizliği."
+            }
+        ];
+    }
+    
+    // Tüm kartları DOM'a (web sayfasına) ekle
+    renderMemes();
+}
+
+// --- 2. FONKSİYON: VERİYİ LOCAL STORAGE'A KAYDET ---
+function saveMemes() {
+    // Güncel diziyi JSON formatına dönüştür ve Local Storage'a kaydet
+    localStorage.setItem('rialoMemeGallery', JSON.stringify(memeData));
+}
+
+// --- 3. FONKSİYON: GÖRSEL KARTLARINI OLUŞTUR VE GÖSTER ---
+function renderMemes() {
+    // Galeriyi temizle
+    galleryContainer.innerHTML = ''; 
+
+    // Her bir veri objesi için kart oluştur
+    memeData.forEach(item => {
+        const newCard = document.createElement('div');
+        newCard.classList.add('meme-card');
+        newCard.innerHTML = `
+            <h2>${item.title}</h2>
+            <p>${item.desc}</p>
+            <img src="${item.url}" alt="${item.title}">
+        `;
+        // Yeni kartı listenin başına ekle (en yeni en üstte)
+        galleryContainer.prepend(newCard); 
+    });
+}
+
+
+// --- 4. GİRİŞ VE EKLEME MANTIĞI ---
 
 // Modal açma/kapama
 addImageBtn.onclick = () => {
@@ -28,11 +81,11 @@ window.onclick = (event) => {
 // Şifre Kontrolü
 function checkPassword() {
     const enteredPass = document.getElementById('secretPassword').value;
-    document.getElementById('secretPassword').value = ''; // Şifreyi temizle
+    document.getElementById('secretPassword').value = ''; 
 
     if (enteredPass === SECRET_KEY) {
         authModal.style.display = 'none';
-        addModal.style.display = 'block'; // Şifre doğruysa ekleme modalını aç
+        addModal.style.display = 'block';
     } else {
         alert("Hatalı şifre. Yönetici girişi reddedildi.");
     }
@@ -49,16 +102,21 @@ function addMemeCard() {
         return;
     }
 
-    const newCard = document.createElement('div');
-    newCard.classList.add('meme-card');
-    newCard.innerHTML = `
-        <h2>${title}</h2>
-        <p>${desc}</p>
-        <img src="${url}" alt="${title}">
-    `;
+    // Yeni kart objesini oluştur
+    const newMeme = {
+        url: url,
+        title: title,
+        desc: desc
+    };
+    
+    // Veri dizisine yeni kartı ekle
+    memeData.push(newMeme);
 
-    // Yeni kartı listenin başına ekle
-    galleryContainer.prepend(newCard);
+    // Veriyi Local Storage'a kaydet
+    saveMemes();
+
+    // Görseli hemen sayfada göster (tüm listeyi yeniden çizerek)
+    renderMemes();
 
     // Modal'ı kapat ve inputları temizle
     addModal.style.display = 'none';
@@ -66,5 +124,12 @@ function addMemeCard() {
     document.getElementById('imgTitle').value = '';
     document.getElementById('imgDesc').value = '';
 
-    alert("Görsel başarıyla galeriye eklendi!");
+    alert("Görsel başarıyla galeriye eklendi ve kaydedildi!");
 }
+
+// Sayfa yüklendiğinde (başlangıçta) tüm veriyi yükle ve göster
+window.onload = loadMemes;
+
+// Fonksiyonları HTML'den erişilebilir yapmak için dışarı aktar
+window.checkPassword = checkPassword;
+window.addMemeCard = addMemeCard;
