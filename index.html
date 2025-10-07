@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIALO Role Gallery - Yönetici Paneli</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>RIALO Club Member Role: The Grind & The Wait Gallery</h1>
+        <p>Club-Tasks mizah sergisi. Yeni görsel eklemek için '+' butonunu kullanın.</p>
+    </header>
+
+    <div class="gallery-container" id="galleryContainer">
+        <div class="meme-card">
+            <h2>The "Discord Pacing" Timer</h2>
+            <p>RialORCA'dan mesaj beklerken odada volta atan kullanıcının çaresizliği.</p>
+            <img src="gorsel-3-adresi.jpg" alt="Discord Pacing Timer">
+        </div>
+
+    </div>
+
+    <button id="addImageBtn" class="add-button">+</button>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Yönetici Girişi</h2>
+            <input type="password" id="secretPassword" placeholder="Gizli Şifrenizi Girin">
+            <button onclick="checkPassword()">Giriş Yap</button>
+        </div>
+    </div>
+
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Yeni Görsel Ekle</h2>
+            <input type="text" id="imgURL" placeholder="Görsel URL (İnternet Adresi)">
+            <input type="text" id="imgTitle" placeholder="Görsel Başlığı">
+            <textarea id="imgDesc" placeholder="Görsel Açıklaması"></textarea>
+            <button onclick="addMemeCard()">Görseli Ekle</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 RIALO Community Art Showcase</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
