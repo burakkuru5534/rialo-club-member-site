@@ -1,5 +1,5 @@
 // GİZLİ ŞİFRENİZİ BURAYA YAZIN
-const SECRET_KEY = "rialo5534"; // Lütfen bunu kendi şifrenizle değiştirin!
+const SECRET_KEY = "sifrenizburaya"; // Lütfen bunu kendi şifrenizle değiştirin!
 
 const addImageBtn = document.getElementById('addImageBtn');
 const authModal = document.getElementById('authModal');
@@ -16,17 +16,9 @@ function loadMemes() {
     if (savedData) {
         // Veri varsa, JSON formatından JavaScript dizisine dönüştür
         memeData = JSON.parse(savedData);
-    } else {
-        // İlk yüklemede Local Storage boşsa, varsayılan kartları ekle (Örn. örnek kartınız)
-        memeData = [
-            {
-                url: "gorsel-3-adresi.jpg", // Lütfen bu URL'yi çalışan bir URL ile değiştirin
-                title: "The 'Discord Pacing' Timer",
-                desc: "RialORCA'dan mesaj beklerken odada volta atan kullanıcının çaresizliği."
-            }
-        ];
-    }
-    
+    } 
+    // Local Storage boşsa, memeData boş bir dizi olarak kalır ve boş galeri çizilir.
+
     // Tüm kartları DOM'a (web sayfasına) ekle
     renderMemes();
 }
@@ -43,6 +35,7 @@ function renderMemes() {
     galleryContainer.innerHTML = ''; 
 
     // Her bir veri objesi için kart oluştur
+    // (memeData boşsa, döngü çalışmaz ve galeri boş kalır)
     memeData.forEach(item => {
         const newCard = document.createElement('div');
         newCard.classList.add('meme-card');
